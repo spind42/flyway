@@ -35,6 +35,7 @@ import org.flywaydb.core.internal.util.logging.LogFactory;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import org.flywaydb.core.internal.dbsupport.ingres.IngresDbSupport;
 
 /**
  * Factory for obtaining the correct DbSupport instance for the current connection.
@@ -115,6 +116,9 @@ public class DbSupportFactory {
             // In the meanwhile IBM also sold solidDB to Unicom Systems.
             // Therefore no vendor string in search criteria
             return new SolidDbSupport(connection);
+        }
+        if (databaseProductName.contains("INGRES")) {
+            return new IngresDbSupport(connection);
         }
 
         throw new FlywayException("Unsupported Database: " + databaseProductName);

@@ -40,6 +40,7 @@ public class DbCategory {
     public interface Oracle extends CommercialDB {}
     public interface SQLServer extends CommercialDB {}
     public interface GoogleCloudSQL extends CommercialDB {}
+    public interface IngresDB extends CommercialDB {}
 
     public interface DB2zOS extends ContributorSupportedDB {}
     public interface Vertica extends ContributorSupportedDB {}
