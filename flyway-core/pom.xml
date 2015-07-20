@@ -140,6 +140,12 @@
             <artifactId>jtds</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ingres.jdbc</groupId>
+            <artifactId>iijdbc</artifactId>
+            <version>10.0-4.0.6</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -244,7 +250,7 @@
         <profile>
             <id>EmbeddedDBTest</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
@@ -260,7 +266,7 @@
         <profile>
             <id>InstallableDBTest</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
@@ -276,7 +282,7 @@
         <profile>
             <id>CommercialDBTest</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <dependencies>
                 <dependency>
@@ -326,6 +332,103 @@
                             <excludedGroups>org.flywaydb.core.DbCategory$DB2zOS,org.flywaydb.core.DbCategory$Redshift,org.flywaydb.core.DbCategory$SolidDB</excludedGroups>
                         </configuration>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>ingresTest</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.ingres.jdbc</groupId>
+                    <artifactId>iijdbc</artifactId>
+                    <version>10.0-4.0.6</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        
+                        <configuration>
+                            <includes combine.self="override">                                
+                                <include>**/dbsupport/ingres/*Test.java</include>
+                            </includes>
+
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>       
+                            
+<!--                            <excludes>
+                               <exclude>**/*.java</exclude>
+                            </excludes>                                                                           -->
+                            <includes combine.self="override">
+                                <include>**/ingres/IT*.java</include>
+                                <include>**/ingres/*ITCase.java</include>
+                                <include>**/ingres/*ITTest.java</include>
+                            </includes>           
+               
+<!--                            <excludedGroups>org.flywaydb.core.DbCategory$Vertica,org.flywaydb.core.DbCategory$Redshift,org.flywaydb.core.DbCategory$SolidDB</excludedGroups>-->
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.alexecollins.docker</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>2.9.3</version>
+                        <configuration>
+                            <!-- out of the box, you shoud not need to have these, as they'll use sensible defaults -->
+                            <!-- (optional) your installed version -->
+                            <version>1.13</version>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-container</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-container</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>                                
+                        </executions>
+                    </plugin>
+                    
+<!--                    <plugin>
+                        <groupId>org.jolokia</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.13.2</version>
+                        <configuration>
+                            <images>
+                                <image>spind42/ingres</image>
+                            </images>
+                            <executions>
+                                <execution>
+                                    <id>start</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>start</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>stop</id>
+                                    <phase>post-integration-test</phase>
+                                    <goals>
+                                        <goal>stop</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </configuration>
+                    </plugin>-->
                 </plugins>
             </build>
         </profile>
