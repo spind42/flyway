@@ -216,6 +216,10 @@ public class DriverDataSource implements DataSource {
         if (url.startsWith("jdbc:vertica:")) {
             return "com.vertica.jdbc.Driver";
         }
+        
+        if (url.startsWith("jdbc:ingres:")) {
+            return "com.ingres.jdbc.IngresDriver";
+        }
 
         return null;
     }
