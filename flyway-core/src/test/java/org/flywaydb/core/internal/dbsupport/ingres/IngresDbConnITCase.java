@@ -24,9 +24,10 @@ public class IngresDbConnITCase {
     public void connCheck() throws Exception {
         String user = "ingres";
         String password = "ingres";
-        String url = "jdbc:ingres://fedingres:II7/ingres";
+        String url = "jdbc:ingres://" + System.getProperty("ingresdb.ip")+ ":II7/ingres";
 
-        
+        System.out.println("connect URL: " + url);
+        System.out.println("TESTsystemgetProp: " + System.getProperty("ingresdb.prop"));
         
         DriverDataSource driverDataSource = new DriverDataSource(Thread.currentThread().getContextClassLoader(), null, url, user, password);
         

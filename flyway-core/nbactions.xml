@@ -21,6 +21,16 @@
                 <activatedProfile>ingresTest</activatedProfile>
             </activatedProfiles>
         </action>
+        <action>
+            <actionName>CUSTOM-integration-test-</actionName>
+            <displayName>integration-test-</displayName>
+            <goals>
+                <goal>integration-test</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>ingresTest</activatedProfile>
+            </activatedProfiles>
+        </action>
         
         
     </actions>
